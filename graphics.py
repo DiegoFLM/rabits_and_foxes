@@ -13,15 +13,16 @@ def create_system():
     RED = (255, 0, 0)
     GREEN = (0, 255, 0)
     BLUE = (0, 0, 255)
+    YELLOW = (255, 255, 0)
 
     # For each cell:
     WIDTH = 30
     HEIGHT = 30
-    MARGIN = 5
+    MARGIN = 4
 
     # For the grid:
     ROWS = 15
-    COLUMNS = 15
+    COLUMNS = 30
 
     # MAP CONSTANTS 
     INITIAL_RABBIT_POPULATION = 30
@@ -36,15 +37,14 @@ def create_system():
     m1 = map.Map(ROWS, COLUMNS)
     m1.populate(INITIAL_RABBIT_POPULATION, 
         "rabbit", 
-        "random", 
-        preferred_direction = 5, 
+        "clockwise_escape", 
+        preferred_direction = 7, 
         clockwise = True)
-    m1.populate(INITIAL_FOX_POPULATION, "fox", "random")
+    m1.populate(INITIAL_FOX_POPULATION, "fox", "random", 
+        preferred_direction = 5, clockwise = True, diagonal_prediction = True)
 
     # [row, column, [rabbits, foxes]]
     grid = m1.get_population_map()
-    grid.shape
-
 
     pygame.display.init()
     pygame.init()
@@ -82,9 +82,11 @@ def create_system():
         for row in range(ROWS):
             for column in range(COLUMNS):
                 color = WHITE
-                if grid[row, column, 0] >= 1:
+                if grid[row, column, 0] >= 1 and grid[row, column, 1] >= 1:
+                    color = YELLOW
+                elif grid[row, column, 0] >= 1:
                     color = BLUE
-                if grid[row, column, 1] >= 1:
+                elif grid[row, column, 1] >= 1:
                     color = RED
                 pygame.draw.rect(screen,
                                 color,

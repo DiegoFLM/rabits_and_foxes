@@ -1,8 +1,6 @@
 import numpy as np
 
 def get_neighbors(index, clockwise):
-    print(f"index: {index}")
-    print(f"clockwise: {clockwise}")
     neighbors = []
     if clockwise:
         neighbors.append((index - 1) % 8)

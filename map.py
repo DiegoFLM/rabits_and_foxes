@@ -125,7 +125,7 @@ class Map:
         species_index = self.species_list.index(species)
         for i in range(self.rows):
             for j in range(self.cols):
-                if (self.objects_map[i][j][species_index]):
+                if self.objects_map[i][j][species_index]:
                     breeding_foxes = list( np.random.choice(
                         self.objects_map[i][j][species_index],
                         self.hunt_log_map[i, j],
@@ -139,12 +139,13 @@ class Map:
 
         species = "rabbit"
         species_index = self.species_list.index(species)
-        # if (int(self.time) % int(self.rabbit_reproduction_time) == 0):
-        for i in range(self.rows):
-            for j in range(self.cols):
-                if len(temporal_objects_map[i][j][species_index]) == 0:
-                    continue
-                for animal in temporal_objects_map[i][j][species_index]:
-                    brood = animal.reproduce()
-                    self.objects_map[brood.row][brood.col][species_index] \
-                        .append(animal.reproduce())
+        if (int(self.time) % int(self.rabbit_reproduction_time) == 0):
+            for i in range(self.rows):
+                for j in range(self.cols):
+                    if len(temporal_objects_map[i][j][species_index]) == 0 \
+                        or len(temporal_objects_map[i][j][species_index]) >= 20:
+                        continue
+                    for animal in temporal_objects_map[i][j][species_index]:
+                        brood = animal.reproduce()
+                        self.objects_map[brood.row][brood.col][species_index] \
+                            .append(animal.reproduce())
