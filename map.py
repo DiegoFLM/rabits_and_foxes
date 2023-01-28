@@ -2,7 +2,7 @@ import numpy as np
 import copy
 
 import aux
-import animal as Animal
+import animal
 
 class Map:
 
@@ -56,7 +56,8 @@ class Map:
         for i in range (amount):
             row = np.random.randint(0, self.rows)
             col = np.random.randint(0, self.cols)
-            self.objects_map[row][col][species_index].append(Animal(
+            self.objects_map[row][col][species_index].append(
+                animal.Animal(
                 row, col, species, strategy, preferred_direction, 
                 clockwise, diagonal_prediction))
         self.make_population_map()
@@ -134,16 +135,16 @@ class Map:
                         self.objects_map[brood.row][brood.col][species_index] \
                             .append(fox.reproduce())
 
-        temporal_objects_map = copy.deepcopy(self.objects_map)
+        # temporal_objects_map = copy.deepcopy(self.objects_map)
 
         species = "rabbit"
         species_index = self.species_list.index(species)
-        if self.time % self.rabbit_reproduction_time == 0:
-            for i in range(self.rows):
-                for j in range(self.cols):
-                    if len(temporal_objects_map[i][j][species_index]):
-                        continue
-                    for animal in temporal_objects_map[i][j][species_index]:
-                        brood = animal.reproduce()
-                        self.objects_map[brood.row][brood.col][species_index] \
-                            .append(animal.reproduce())
+        # if (int(self.time) % int(self.rabbit_reproduction_time) == 0):
+        for i in range(self.rows):
+            for j in range(self.cols):
+                if len(temporal_objects_map[i][j][species_index]) == 0:
+                    continue
+                for animal in temporal_objects_map[i][j][species_index]:
+                    brood = animal.reproduce()
+                    self.objects_map[brood.row][brood.col][species_index] \
+                        .append(animal.reproduce())

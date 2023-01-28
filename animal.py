@@ -1,7 +1,7 @@
 import numpy as np
 
 import aux
-import strategy as Strategy
+import strategy
 
 
 class Animal:
@@ -48,11 +48,11 @@ class Animal:
             dir =  np.random.randint(0, 8)
 
         elif self.strategy == "clockwise_escape":
-            dir = Strategy.clockwise_escape(foxes_around,
+            dir = strategy.Strategy.clockwise_escape(foxes_around,
                 self.preferred_direction, self.clockwise)
 
         elif self.strategy == "chasing_1":
-            dir = Strategy.chasing_1(rabbits_around, self.preferred_direction,
+            dir = strategy.Strategy.chasing_1(rabbits_around, self.preferred_direction,
                 self.clockwise, self.diagonal_prediction)
         else:
             raise ValueError("invalid strategy")
